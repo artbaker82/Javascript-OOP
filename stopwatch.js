@@ -1,33 +1,51 @@
 function Stopwatch() {
-  this.duration = 0;
+  //declare private variables
+  duration = 0;
   let startStorage = 0;
+  let timerStarted = false;
 
-  //let intervalDuration = 0;
   this.start = () => {
+    if (timerStarted) {
+      throw new Error("Timer already started");
+    }
+    console.log(timerStarted);
     startStorage = Date.now();
+    timerStarted = true;
+    console.log(timerStarted);
     console.log(`startStorage: ${startStorage}`);
   };
 
   this.stop = () => {
+    if (!timerStarted) {
+      throw new Error("Timer already stopped");
+    }
+
     let end = Date.now();
-    //console.log(`intervalDuration: ${intervalDuration}`);
+
+    console.log(timerStarted);
 
     //if the interval duration is greater than 0, it means some time has already been recorded, and we just want
     // to add the new time.
-
-    if (this.duration > 0) {
+    timerStarted = false;
+    if (duration > 0) {
       let recentInterval = (end - startStorage) / 1000;
       console.log(`recentInterval: ${recentInterval}`);
       this.duration += recentInterval;
     } else {
       //this is the first start stop sequence
 
-      this.duration = (end - startStorage) / 1000;
+      duration = (end - startStorage) / 1000;
     }
   };
+  //getter for private variable duration
+  Object.defineProperty(this, "duration", {
+    get: () => {
+      return duration;
+    },
+  });
 
   this.reset = () => {
-    this.duration = 0;
+    duration = 0;
     startStorage = 0;
     intervalDuration = 0;
   };
