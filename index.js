@@ -1,54 +1,35 @@
-//Object literal notation
-/*
-const circle = {
-  radius: 1,
-  location: {
-    x: 1,
-    y: 1,
-  },
-  draw: function () {
-    console.log("draw");
-  },
+function Shape(color) {
+  this.color = color;
+}
+
+Shape.prototype.duplicate = function () {
+  console.log("duplicate");
 };
-*/
 
-//Factory function
-/*
-function createCircle(radius) {
-  return {
-    radius,
-    draw: function () {
-      console.log("draw");
-    },
-  };
-}
-const circle = createCircle(1);
-//circle.draw();
-*/
-
-//constructor function
-
-function Circle(radius) {
+function Circle(radius, color) {
+  Shape.call(this, color);
   this.radius = radius;
-  let defaultLocation = {
-    x: 0,
-    y: 0,
-  };
-
-  this.draw = function () {
-    console.log("draw");
-  };
-
-  Object.defineProperty(this, "defaultLocation", {
-    get: function () {
-      return defaultLocation;
-    },
-    set: function (value) {
-      if (!value.x || !value.y) throw new Error("Invalid Location");
-
-      defaultLocation = value;
-    },
-  });
 }
-const circle = new Circle(10);
-circle.defaultLocation = { x: 2, y: 3 };
+extend(Circle, Shape);
+
+Circle.prototype.duplicate = function () {
+  Shape.prototype.duplicate.call(this);
+  console.log("duplicate circle");
+};
+
+function extend(Child, Parent) {
+  Child.prototype = Object.create(Parent.prototype);
+  Child.prototype.constructor = Child;
+}
+
+Circle.prototype.draw = function () {
+  console.log("draw");
+};
+
+function Square(size) {
+  this.size = size;
+}
+extend(Square, Shape);
+
+const s = new Shape();
+const c = new Circle(1, "blue");
