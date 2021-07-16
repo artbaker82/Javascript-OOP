@@ -1,20 +1,42 @@
-class Shape {
-  constructor(color) {
-    this.color = color;
+//all class members public
+class myArr {
+  constructor(items) {
+    this.listItems = !items ? "" : spreadItems(items);
+    this.length = !items ? 0 : getLength(this.listItems);
   }
-  move() {
-    console.log("move");
+
+  add(item) {
+    this.listItems += `, ${item}`;
+    this.length++;
   }
+
+  getAtIndex(index) {
+    // let regex = /(\w+)[^Items:]|(\d+)/g;
+    // let match = this.listItems.match(regex);
+    //console.log(numbers);
+    let arr = this.listItems.split(", ");
+    return arr[index];
+  }
+
+  // insertAtIndex(index, item) {
+  //   let regex = /\d/g;
+  //   let numbers = this.listItems.match(regex);
+  //   numbers.splice(index, 0, item);
+  //   this.listItems = numbers.join(" ");
+  // }
 }
 
-class Circle extends Shape {
-  constructor(color, radius) {
-    super(color);
-    this.radius = radius;
-  }
-  draw() {
-    console.log("draw");
-  }
-}
+const spreadItems = (items) => {
+  return `Items: ${items.map((x) => x).join(", ")}`;
+};
 
-const c = new Circle("red", 42);
+const getLength = (items) => {
+  // let regex = /(\w+)[^Items:]|(\d+)/g;
+  // let match = items.match(regex);
+  // console.log(match);
+  // return match.length;
+
+  return items.split(", ").length;
+};
+
+const arr1 = new myArr([1, 2, 3, 4, "hello", "world"]);
